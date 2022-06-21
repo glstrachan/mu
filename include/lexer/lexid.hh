@@ -1,11 +1,11 @@
 #pragma once
-
-#include "lexiddata.hh"
+#include "lexer/lexutils.hh"
 
 struct lexID
 {
-	int pos;
+	static constexpr int lexTrie[] = lexTrieTemplate;
+	int pos = 0;
 	
-	lexID();
-	bool toChild(char child);
-}
+	bool toNode(char node);
+	tokenType nodeID();
+};

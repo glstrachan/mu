@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include "lexer/lextokendata.hh"
 
 struct lexToken
 {
@@ -10,7 +9,8 @@ struct lexToken
 
 	std::string trivia;
 	int line;
-	int pos;
+	int start;
+	int end;
 
-	lexToken(tokenType type, std::string data, std::string trivia, int line, int pos);
+	lexToken(tokenType type, std::string data, std::string trivia, int line, int start, int end);
 };
