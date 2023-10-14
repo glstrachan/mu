@@ -2,8 +2,8 @@
 
 #include <ctype.h>
 
-lexer::lexer(std::string source) : 
-source(source), trivia(""), current(source[0]), pos(0), line(0), linePos(0) {}
+lexer::lexer(std::string source, errorHandler& handler) : 
+source(source), trivia(""), current(source[0]), pos(0), line(0), linePos(0), handler(handler) {}
 
 void lexer::step()
 {
@@ -13,14 +13,13 @@ void lexer::step()
 		linePos *= (current != '\n');
 		linePos += (current != '\n');
 
-		pos++;
-		current = source[pos];
+		current = source[pos++];
 	}
 }
 
 lexToken lexer::token(tokenType type, std::string data)
 {
-	return *(new lexToken(type, data, trivia, line, linePos - data.size(), linePos));
+	return lexToken(type, data, trivia, line, linePos - data.size(), linePos);
 }
 
 lexToken lexer::next()
@@ -68,6 +67,7 @@ lexToken lexer::eatNumeric()
 			if(type == RealType)
 			{
 				/* Throw error, 2 '.'s */
+				handler.add(unexpectedChar(current, line, linePos));
 			}
 			type = RealType;
 		}
@@ -89,6 +89,7 @@ lexToken lexer::eatString()
 		if(current == EOF || current == '\0')
 		{
 			/* Throw error, no matching quote */
+			handler.add(expectedChar('"', line, linePos));
 			break;
 		}
 
@@ -189,6 +190,7 @@ lexToken lexer::eatSymbol()
 
     break; default:
 		/* Throw unexpected token error with current */
+		handler.add(unexpectedChar(data.front(), line, linePos));
     return next();
   }
 

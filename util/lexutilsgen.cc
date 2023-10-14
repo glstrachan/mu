@@ -33,6 +33,7 @@ const std::vector<std::string> keywords =
   "enum",
   "data",
 
+  "link",
   "final",
   "return"
 };

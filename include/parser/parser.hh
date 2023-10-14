@@ -1,5 +1,6 @@
 #pragma once
 #include "lexer/lexer.hh"
+#include "astnode.hh"
 
 struct parser
 {
@@ -7,8 +8,13 @@ struct parser
   lexToken* current;
   int pos;
 
-  parse();
+  parser(std::vector<lexToken> tokens);
+
+  compoundAST parse();
 
   void step();
-  lexToken* peak(int n); 
+  lexToken* parser::consume() 
+  bool parser::peak(int n, tokenType type)
+
+  expAST parseExp();
 }

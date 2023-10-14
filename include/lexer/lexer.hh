@@ -4,6 +4,7 @@
 
 #include "lexer/lexutils.hh"
 #include "lexer/lexid.hh"
+#include "error/error.hh"
 
 struct lexer
 {
@@ -14,7 +15,9 @@ struct lexer
 	int line;
 	int linePos;
 
-	lexer(std::string source);
+	errorHandler& handler;
+
+	lexer(std::string source, errorHandler& handler);
 
 	void step();
 	lexToken token(tokenType type, std::string data);
